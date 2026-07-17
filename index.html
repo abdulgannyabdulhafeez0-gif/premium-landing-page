@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroSound Max - Next-Gen Spatial Audio</title>
+  <style>
+    :root {
+      --accent: #3b82f6; /* Default Blue */
+      --accent-rgb: 59, 130, 246;
+      --bg-dark: #090d16;
+      --card-bg: #111827;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background: rgba(9, 13, 22, 0.8);
+      backdrop-filter: blur(12px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cta-nav-btn {
+      background: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+      transition: all 0.2s;
+    }
+
+    .cta-nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 140px 5% 80px 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      max-width: 600px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* Product Display Area (CSS Headphones illustration) */
+    .product-showcase {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glow-ring {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.2) 0%, transparent 70%);
+      animation: pulse 3s infinite alternate;
+    }
+
+    .headphones-svg {
+      width: 180px;
+      height: 180px;
+      fill: var(--accent);
+      filter: drop-shadow(0 10px 20px rgba(var(--accent-rgb), 0.4));
+      transition: fill 0.4s ease, filter 0.4s ease;
+    }
+
+    /* Color Swatch Selector */
+    .color-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .swatch.active {
+      border-color: #fff;
+      transform: scale(1.2);
+    }
+
+    .swatch-blue { background-color: #3b82f6; }
+    .swatch-magenta { background-color: #ec4899; }
+    .swatch-gold { background-color: #eab308; }
+    .swatch-emerald { background-color: #10b981; }
+
+    /* Key Features Grid */
+    .features-section {
+      padding: 60px 5%;
+      background: var(--card-bg);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 40px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media(min-width: 768px) {
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
+      h1 { font-size: 56px; }
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 30px 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(var(--accent-rgb), 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px auto;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* Lead Capture Section */
+    .lead-section {
+      padding: 80px 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Countdown Utility */
+    .countdown-box {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      background: rgba(255,255,255,0.03);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    .countdown-box span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .form-container h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .form-container p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+      transition: all 0.2s;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Modal / Success Toast */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      max-width: 340px;
+      width: 90%;
+    }
+
+    .modal-icon {
+      font-size: 48px;
+      color: #10b981;
+      margin-bottom: 15px;
+    }
+
+    .modal-close {
+      margin-top: 20px;
+      background: #374151;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.5; }
+      100% { transform: scale(1.05); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">AEROLABS</div>
+    <a href="#preorder" class="cta-nav-btn">Pre-Order</a>
+  </nav>
+
+  <section class="hero">
+    <div class="badge">Spatial Audio Redefined</div>
+    <h1>Hear Nothing But Your Sound</h1>
+    <p>AeroSound Max isolates background frequencies up to 45dB with dynamic smart tracking that shifts with you.</p>
+
+    <!-- Interactive Product Preview -->
+    <div class="product-showcase">
+      <div class="glow-ring" id="glow-ring"></div>
+      <svg class="headphones-svg" id="headphones-img" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12v7c0 1.1.9 2 2 2h4v-8H4v-1c0-4.41 3.59-8 8-8s8 3.59 8 8v1h-4v8h4c1.1 0 2-.9 2-2v-7c0-5.52-4.48-10-10-10z"/>
+      </svg>
+    </div>
+
+    <!-- Live Color Swatch Buttons -->
+    <div class="color-selector">
+      <div class="swatch swatch-blue active" onclick="changeColor('#3b82f6', '59, 130, 246', this)"></div>
+      <div class="swatch swatch-magenta" onclick="changeColor('#ec4899', '236, 72, 153', this)"></div>
+      <div class="swatch swatch-gold" onclick="changeColor('#eab308', '234, 179, 8', this)"></div>
+      <div class="swatch swatch-emerald" onclick="changeColor('#10b981', '16, 185, 129', this)"></div>
+    </div>
+  </section>
+
+  <!-- Clean Grid-Based Features section -->
+  <section class="features-section">
+    <div class="section-title">Acoustic Mastery</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔊</div>
+        <h3>Ultra ANC</h3>
+        <p>Active Hybrid noise reduction cancels up to 45dB of exterior noises.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔋</div>
+        <h3>60H Battery</h3>
+        <p>A single full charge powers over two consecutive days of continuous listening.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Flash Charge</h3>
+        <p>A simple 5-minute charge gives you up to 5 full hours of spatial playback.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing, Urgency & Lead Capture Area -->
+  <section class="lead-section" id="preorder">
+    <div class="countdown-box">
+      Special Pre-order Discount expires in: <span id="countdown">09:59</span>
+    </div>
+
+    <div class="form-container">
+      <h2>Reserve Your Pair</h2>
+      <p>Secure your unit now with a 40% launch-day markdown.</p>
+      
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" required placeholder="john@example.com">
+        </div>
+        <button type="submit" class="submit-btn">Reserve Now</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Professional Success Popup Modal -->
+  <div class="modal" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-icon">✓</div>
+      <h2>Reservation Saved!</h2>
+      <p style="color: var(--text-muted); margin-top: 10px; font-size: 14px;">We've locked in your 40% discount pricing. Check your inbox shortly for configuration details.</p>
+      <button class="modal-close" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Dynamic Color Swatch Selector Engine
+    function changeColor(hexColor, rgbColor, element) {
+      // Update variables dynamically in stylesheet
+      document.documentElement.style.setProperty('--accent', hexColor);
+      document.documentElement.style.setProperty('--accent-rgb', rgbColor);
+
+      // Manage Active State
+      document.querySelectorAll('.swatch').forEach(swatch => swatch.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    // 2. High-converting Countdown Timer logic
+    let timeLimit = 599; // 10 minutes (in seconds)
+    const countdownEl = document.getElementById('countdown');
+    
+    setInterval(() => {
+      let minutes = Math.floor(timeLimit / 60);
+      let seconds = timeLimit % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      countdownEl.innerText = `0${minutes}:${seconds}`;
+      if (timeLimit > 0) timeLimit--;
+    }, 1000);
+
+    // 3. Lead Submission Modal Logic
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('success-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('success-modal').classList.remove('active');
+      document.querySelector('form').reset();
+    }
+  </script>
+</body>
+</html>
